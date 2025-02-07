@@ -1,4 +1,4 @@
-name: CI/CD
+name: CI/CD for Python
 
 on:
   push:
@@ -9,23 +9,19 @@ on:
       - main
 
 jobs:
-  test:
+  build-and-test:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
       - name: Set up Python
         uses: actions/setup-python@v3
         with:
           python-version: '3.9'
 
-      - name: Install dependencies
+      - name: Install dependencies and run tests
         run: |
-          python -m venv venv
-          source venv/bin/activate
-          pip install -r requirements.txt
-
-      - name: Run tests
-        run: |
-          source venv/bin/activate
-          pytest tests/
+          make install
+          make test
