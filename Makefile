@@ -12,36 +12,20 @@ install:
 	@echo "Создаю виртуальное окружение..."
 	$(PYTHON) -m venv $(VENV)
 	@echo "Устанавливаю зависимости..."
-	# Устанавливаем права на выполнение для Linux
-	@if [ -f "$(VENV)/Scripts/activate" ]; then \
-		$(VENV)/Scripts/activate && pip install -r requirements.txt; \
-	elif [ -f "$(VENV)/bin/activate" ]; then \
-		chmod +x $(VENV)/bin/activate && \
-		. $(VENV)/bin/activate && pip install -r requirements.txt; \
-	fi
+	$(VENV)/bin/pip install -r requirements.txt || $(VENV)/Scripts/pip install -r requirements.txt
 
 # Запуск тестов
 test:
 	@echo "Запускаю тесты..."
-	# Находим правильный путь для активации окружения и запускаем тесты
-	@if [ -f "$(VENV)/Scripts/activate" ]; then \
-		$(VENV)/Scripts/activate && pytest $(TESTS_DIR); \
-	elif [ -f "$(VENV)/bin/activate" ]; then \
-		. $(VENV)/bin/activate && pytest $(TESTS_DIR); \
-	fi
+	$(VENV)/bin/pytest $(TESTS_DIR) || $(VENV)/Scripts/pytest $(TESTS_DIR)
 
 # Очистка проекта
 clean:
 	@echo "Удаляю виртуальное окружение и кэш..."
-	@if exist $(VENV) rmdir /s /q $(VENV)
-	@if exist __pycache__ rmdir /s /q __pycache__
+	rm -rf $(VENV)
+	rm -rf __pycache__
 
 # Автоформатирование с помощью black
 format:
 	@echo "Автоформатирую код с помощью black..."
-	# Активируем и форматируем код
-	@if [ -f "$(VENV)/Scripts/activate" ]; then \
-		$(VENV)/Scripts/activate && black .; \
-	elif [ -f "$(VENV)/bin/activate" ]; then \
-		. $(VENV)/bin/activate && black .; \
-	fi
+	$(VENV)/bin/black . || $(VENV)/Scripts/black .
