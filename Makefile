@@ -1,4 +1,3 @@
-
 PYTHON = python
 PIP = pip
 VENV = venv
@@ -11,10 +10,13 @@ TESTS_DIR = tests
 install:
 	@echo "Создаю виртуальное окружение..."
 	$(PYTHON) -m venv $(VENV)
-	@echo "Активирую виртуальное окружение..."
-	$(VENV)/Scripts/activate
 	@echo "Устанавливаю зависимости..."
-	$(PIP) install -r requirements.txt
+	# Установка зависимостей для Windows и Linux
+	@if [ -f "$(VENV)/Scripts/activate" ]; then \
+		$(VENV)/Scripts/activate && pip install -r requirements.txt; \
+	elif [ -f "$(VENV)/bin/activate" ]; then \
+		. $(VENV)/bin/activate && pip install -r requirements.txt; \
+	fi
 
 
 test:
