@@ -12,10 +12,11 @@ install:
 	@echo "Создаю виртуальное окружение..."
 	$(PYTHON) -m venv $(VENV)
 	@echo "Устанавливаю зависимости..."
-	# Установка зависимостей для Windows и Linux
+	# Устанавливаем права на выполнение для Linux
 	@if [ -f "$(VENV)/Scripts/activate" ]; then \
 		$(VENV)/Scripts/activate && pip install -r requirements.txt; \
 	elif [ -f "$(VENV)/bin/activate" ]; then \
+		chmod +x $(VENV)/bin/activate && \
 		. $(VENV)/bin/activate && pip install -r requirements.txt; \
 	fi
 
