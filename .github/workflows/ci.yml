@@ -23,9 +23,3 @@ jobs:
 
       - name: Install dependencies
         run: make install
-
-      - name: Build Docker image
-        run: docker build -t myapp .
-
-      - name: Push to Docker Hub
-        run: docker push myapp
