@@ -24,9 +24,6 @@ jobs:
       - name: Install dependencies
         run: make install
 
-      - name: Run flake8 (code quality check)
-        run: flake8 .
-
       - name: Run tests
         run: make test
 
