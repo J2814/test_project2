@@ -14,11 +14,6 @@ install:
 	@echo "Устанавливаю зависимости..."
 	$(VENV)/bin/pip install -r requirements.txt || $(VENV)/Scripts/pip install -r requirements.txt
 
-# Запуск тестов
-test:
-	@echo "Запускаю тесты..."
-	$(VENV)/bin/pytest $(TESTS_DIR) || $(VENV)/Scripts/pytest $(TESTS_DIR)
-
 # Очистка проекта
 clean:
 	@echo "Удаляю виртуальное окружение и кэш..."
